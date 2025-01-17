@@ -1,0 +1,186 @@
+﻿CREATE DATABASE IF NOT EXISTS Deadline3;
+USE Deadline3;
+
+
+-- Utility
+
+
+CREATE TABLE IF NOT EXISTS address (
+    addressID INT NOT NULL AUTO_INCREMENT,
+    street_number VARCHAR(255) NOT NULL,
+    house_no VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    state VARCHAR(255) NOT NULL,
+    zip INT NOT NULL,
+    PRIMARY KEY (addressID)
+);
+
+
+CREATE TABLE IF NOT EXISTS phone_number (
+    phoneID INT NOT NULL AUTO_INCREMENT,
+    num CHAR(15) NOT NULL,
+    PRIMARY KEY (phoneID)
+);
+
+
+-- Entity
+
+
+CREATE TABLE IF NOT EXISTS admin (
+    adminID INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (adminID)
+);
+
+
+CREATE TABLE IF NOT EXISTS supplier (
+    supplierID INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(255) NOT NULL,
+    middle_name VARCHAR(10),
+    last_name VARCHAR(255),
+    addressID INT NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    supplier_password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (supplierID),
+    FOREIGN KEY (addressID) REFERENCES address(addressID)
+);
+
+
+CREATE TABLE IF NOT EXISTS customer (
+    customerID INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(255) NOT NULL,
+    middle_name VARCHAR(10),
+    last_name VARCHAR(255),
+    addressID INT NOT NULL,
+    age INT NOT NULL,
+    phone_number INT UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    CHECK (age >= 18 AND age <= 120),
+    PRIMARY KEY (customerID),
+    FOREIGN KEY (addressID) REFERENCES address(addressID)
+);
+
+
+CREATE TABLE IF NOT EXISTS rider (
+    riderID INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(255) NOT NULL,
+    middle_name VARCHAR(10),
+    last_name VARCHAR(255),
+    availability BOOLEAN NOT NULL DEFAULT TRUE,
+    phone_number INT UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (riderID)
+);
+
+
+CREATE TABLE IF NOT EXISTS product (
+    productID INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    supplierID INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    quantity INT NOT NULL,
+    product_description TEXT NOT NULL,
+    CHECK (price > 0.00),
+    CHECK (quantity >= 0),
+    PRIMARY KEY (productID),
+    FOREIGN KEY (supplierID) REFERENCES supplier(supplierID)
+);
+
+
+CREATE TABLE IF NOT EXISTS orders (
+    orderID INT NOT NULL AUTO_INCREMENT,
+    customerID INT NOT NULL,
+    riderID INT NOT NULL,
+    order_date DATE NOT NULL,
+    delivery_date DATE,
+    CHECK (delivery_date >= order_date),
+    PRIMARY KEY (orderID),
+    FOREIGN KEY (customerID) REFERENCES customer(customerID),
+    FOREIGN KEY (riderID) REFERENCES rider(riderID)
+);
+
+
+CREATE TABLE IF NOT EXISTS wallet (
+    customerID INT NOT NULL,
+    balance DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    UPI_ID VARCHAR(255),
+    CHECK (balance >= 0.00),
+    PRIMARY KEY (customerID),
+    FOREIGN KEY (customerID) REFERENCES customer(customerID)
+);
+
+
+CREATE TABLE IF NOT EXISTS product_review (
+    customerID INT NOT NULL,
+    productID INT NOT NULL,
+    stars INT NOT NULL,
+    comments TEXT,
+    review_date DATE NOT NULL,
+    CHECK (stars >= 1 AND stars <= 5),
+    PRIMARY KEY (customerID, productID),
+    FOREIGN KEY (customerID) REFERENCES customer(customerID),
+    FOREIGN KEY (productID) REFERENCES product(productID)
+);
+
+
+CREATE TABLE IF NOT EXISTS rider_review (
+    customerID INT NOT NULL,
+    riderID INT NOT NULL,
+    stars INT NOT NULL,
+    comments TEXT,
+    review_date DATE NOT NULL,
+    CHECK (stars >= 1 AND stars <= 5),
+    PRIMARY KEY (customerID, riderID),
+    FOREIGN KEY (customerID) REFERENCES customer(customerID),
+    FOREIGN KEY (riderID) REFERENCES rider(riderID)
+);
+
+
+-- Relationships
+
+
+CREATE TABLE IF NOT EXISTS cart (
+    customerID INT NOT NULL,
+    productID INT NOT NULL,
+    quantity INT NOT NULL,
+    CHECK (quantity >= 1),
+    PRIMARY KEY (customerID, productID),
+    FOREIGN KEY (customerID) REFERENCES customer(customerID),
+    FOREIGN KEY (productID) REFERENCES product(productID)
+);
+
+
+CREATE TABLE IF NOT EXISTS order_product (
+    orderID INT NOT NULL,
+    productID INT NOT NULL,
+    quantity INT NOT NULL,
+    CHECK (quantity >= 1),
+    PRIMARY KEY (orderID, productID),
+    FOREIGN KEY (orderID) REFERENCES orders(orderID),
+    FOREIGN KEY (productID) REFERENCES product(productID)
+);
+
+
+-- Indices
+
+
+CREATE UNIQUE INDEX idx_admin_username_password ON admin(username, password);
+CREATE UNIQUE INDEX idx_supplier_email_supplier_password ON supplier(email, supplier_password);
+CREATE UNIQUE INDEX idx_customer_email_password ON customer(email, password);
+CREATE UNIQUE INDEX idx_rider_email_password ON rider(email, password);
+CREATE INDEX idx_rider_availability ON rider(availability);
+CREATE UNIQUE INDEX idx_wallet_customerID ON wallet(customerID);
+CREATE INDEX idx_phone_number_phoneID ON phone_number(phoneID);
+CREATE INDEX idx_address_addressID ON address(addressID);
+CREATE INDEX idx_product_name ON product(name);
+CREATE INDEX idx_product_price ON product(price);
+CREATE INDEX idx_product_review_stars ON product_review(stars);
+CREATE INDEX idx_product_review_productID ON product_review(productID);
+CREATE INDEX idx_rider_review_stars ON rider_review(stars);
+CREATE INDEX idx_rider_review_riderID ON rider_review(riderID);
+CREATE INDEX idx_cart_customerID ON cart(customerID);
+CREATE INDEX idx_order_product_orderID ON order_product(orderID);
+CREATE INDEX idx_order_product_productID ON order_product(productID);

@@ -1,0 +1,129 @@
+﻿Embedded Queries
+
+-- ordering of items
+
+
+-- 1. Showing of Catalouge
+
+
+SELECT * FROM product;
+
+
+-- 2. Insertion of the order into the DB
+
+
+INSERT INTO orders (customer_id, product_id, quantity, order_date)
+VALUES (1, 4, 2, '2024-03-31');
+
+
+-- 3. Updation of inventory 
+
+
+UPDATE product
+SET quantity = quantity - 2
+WHERE product_id = 4;
+
+
+
+
+-- customer analysis
+
+
+-- 1. Sales in a period of time 
+SELECT 
+    COUNT(orderID) AS total_orders,
+    SUM(quantity) AS total_quantity
+FROM 
+    orders
+WHERE 
+    order_date >= DATE_SUB(CURDATE(), INTERVAL 3 DAY);
+    
+-- 2. Analyzing low stock items
+SELECT productID, name, quantity
+FROM product
+WHERE quantity <= 10;
+
+
+-- 3. most popular product
+SELECT productID, name, SUM(quantity) AS total_quantity_ordered
+FROM orders
+JOIN product ON orders.product_id = product.productID
+GROUP BY productID, name
+ORDER BY total_quantity_ordered DESC
+LIMIT 1;
+
+
+
+
+-- 4. most unpopular product and its inventory level 
+SELECT p.productID, p.name, p.quantity AS inventory_left
+FROM product p
+LEFT JOIN orders o ON p.productID = o.product_id
+GROUP BY p.productID, p.name, p.quantity
+ORDER BY COALESCE(SUM(o.quantity), 0) ASC
+LIMIT 1;
+
+
+
+
+-- 5. highest rater supplier
+SELECT supplierID, MAX(rating) AS highest_rating
+FROM supplier;
+
+
+
+
+
+
+Triggers
+
+
+-- 1. Trigger if the an inventory item falls below 5
+DROP TRIGGER IF EXISTS notify_admin_low_stock;
+
+
+DELIMITER $$
+
+
+CREATE TRIGGER notify_admin_low_stock AFTER UPDATE ON product
+FOR EACH ROW
+BEGIN
+    IF NEW.quantity < 5 THEN
+        INSERT INTO alerts (message) 
+        VALUES ('Low stock for product ID: ' || NEW.productID || '. Current quantity: ' || NEW.quantity);
+    END IF;
+END;
+$$
+DELIMITER ;
+
+
+-- 2. Alerts admin when product rating falls below 3
+
+
+
+
+DROP TRIGGER IF EXISTS notify_admin_low_rating;
+
+
+DELIMITER $$
+
+
+CREATE TRIGGER notify_admin_low_rating AFTER INSERT ON product_review
+FOR EACH ROW
+BEGIN
+    DECLARE avg_rating DECIMAL(10,2);
+    
+   
+    SELECT AVG(rating) INTO avg_rating
+    FROM product_review
+    WHERE productID = NEW.productID;
+    
+    
+    IF avg_rating IS NOT NULL AND avg_rating < 3 THEN
+     
+        INSERT INTO admin_notifications (message) 
+        VALUES ('Average star rating for product ID ' || NEW.productID || ' has fallen below 3.');
+    END IF;
+END;
+$$
+DELIMITER ;

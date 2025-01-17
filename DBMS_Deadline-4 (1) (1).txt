@@ -1,0 +1,78 @@
+﻿-- Query 01 : Delete Products from Cart
+DELETE FROM cart WHERE customerID = 1;
+
+
+-- Query 02: Availability of Rider
+UPDATE rider
+SET availability = 0
+WHERE riderID = (
+    SELECT riderID FROM orders WHERE customerID = 1 AND orderID = (
+        SELECT MAX(orderID) FROM orders WHERE customerID = 1
+    )
+);
+
+
+-- Query 03: List of Suppliers who's products were purchased in the last 2 days
+SELECT DISTINCT
+    s.supplierID,
+    CONCAT(s.first_name, ' ', COALESCE(s.middle_name, ''), ' ', s.last_name) AS name
+FROM 
+    supplier s
+JOIN 
+    product p ON s.supplierID = p.supplierID
+JOIN 
+    order_product op ON p.productID = op.productID
+JOIN 
+    orders o ON op.orderID = o.orderID
+WHERE 
+    o.order_date >= DATE_SUB(CURDATE(), INTERVAL 2 DAY);
+
+
+-- Query 04: List of all available riders
+SELECT
+    riderID,
+    CONCAT(first_name, ' ', COALESCE(middle_name, ''), ' ', last_name) AS name
+FROM
+    rider
+WHERE
+    availability = TRUE;
+
+
+-- Query 05: Number of orders received in 3 days and their sum
+SELECT 
+    COUNT(orderID) AS total_orders,
+    SUM(quantity) AS total_quantity
+FROM 
+    orders
+WHERE 
+    order_date >= DATE_SUB(CURDATE(), INTERVAL 3 DAY);
+
+
+-- Query 06: Adding a product to a customer's cart
+INSERT INTO cart (customerID, productID, quantity) VALUES (1, 1, 1);
+
+
+-- Query 07: Updating Phone number of a customer
+UPDATE customer
+SET phone_number = '1234567890'
+WHERE customerID = 1;
+
+
+-- Query 08:Update quantity of a product in the inventory
+UPDATE product
+SET quantity = quantity - 10
+WHERE productID = 1;
+
+
+
+
+-- Query 09: Average Rating of the product based on customer reviews
+SELECT AVG(stars) AS average_rating
+FROM product_review
+WHERE productID = 1;
+
+
+-- Query 10: Update product price
+UPDATE product
+SET price = 15.99
+WHERE productID = 1;

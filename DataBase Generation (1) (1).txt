@@ -1,0 +1,180 @@
+﻿INSERT INTO address (street_number, house_no, city, state, zip) VALUES ('123', 'Main Street', 'New York City', 'New York', 10001);
+INSERT INTO address (street_number, house_no, city, state, zip) VALUES ('456', 'Broadway', 'Los Angeles', 'California', 90001);
+INSERT INTO address (street_number, house_no, city, state, zip) VALUES ('789', 'Market Street', 'San Francisco', 'California', 94103);
+INSERT INTO address (street_number, house_no, city, state, zip) VALUES ('101', 'Park Avenue', 'Chicago', 'Illinois', 60601);
+INSERT INTO address (street_number, house_no, city, state, zip) VALUES ('555', 'Pine Street', 'Seattle', 'Washington', 98101);
+INSERT INTO address (street_number, house_no, city, state, zip) VALUES ('777', 'King Street', 'Boston', 'Massachusetts', 02108);
+INSERT INTO address (street_number, house_no, city, state, zip) VALUES ('888', 'Wall Street', 'New York City', 'New York', 10005);
+INSERT INTO address (street_number, house_no, city, state, zip) VALUES ('999', 'Ocean Avenue', 'Miami', 'Florida', 33101);
+INSERT INTO address (street_number, house_no, city, state, zip) VALUES ('111', 'Sunset Boulevard', 'Los Angeles', 'California', 90046);
+INSERT INTO address (street_number, house_no, city, state, zip) VALUES ('222', 'Crescent Street', 'Atlanta', 'Georgia', 30303);
+
+
+
+
+-- Populate phone_number table
+INSERT INTO phone_number (num) VALUES
+('123-456-7890'),
+('987-654-3210'),
+('111-222-3333'),
+('444-555-6666'),
+('777-888-9999'),
+('888-777-6666'),
+('555-444-3333'),
+('999-888-7777'),
+('666-555-4444'),
+('333-222-1111');
+
+
+-- Populate admin table
+INSERT INTO admin (username, password) VALUES
+('admin1', 'password1'),
+('admin2', 'password2'),
+('admin3', 'password3'),
+('admin4', 'password4'),
+('admin5', 'password5'),
+('admin6', 'password6'),
+('admin7', 'password7'),
+('admin8', 'password8'),
+('admin9', 'password9'),
+('admin10', 'password10');
+
+
+-- Populate supplier table
+INSERT INTO supplier (first_name, middle_name, last_name, addressID, email, supplier_password) VALUES
+('John', NULL, 'Doe', 1, 'john.doe@example.com', 'supplier1_password'),
+('Jane', NULL, 'Smith', 2, 'jane.smith@example.com', 'supplier2_password'),
+('Michael', 'A', 'Johnson', 3, 'michael.johnson@example.com', 'supplier3_password'),
+('Emily', 'B', 'Brown', 4, 'emily.brown@example.com', 'supplier4_password'),
+('David', 'C', 'Miller', 5, 'david.miller@example.com', 'supplier5_password'),
+('Sarah', NULL, 'Wilson', 6, 'sarah.wilson@example.com', 'supplier6_password'),
+('James', NULL, 'Taylor', 7, 'james.taylor@example.com', 'supplier7_password'),
+('Emma', 'D', 'Anderson', 8, 'emma.anderson@example.com', 'supplier8_password'),
+('Christopher', 'E', 'Thomas', 9, 'christopher.thomas@example.com', 'supplier9_password'),
+('Olivia', 'F', 'White', 10, 'olivia.white@example.com', 'supplier10_password');
+
+
+-- Populate customer table
+INSERT INTO customer (first_name, middle_name, last_name, addressID, age, phone_number, email, password) VALUES
+('Alice', NULL, 'Johnson', 3, 25, 1, 'alice.johnson@example.com', 'password1'),
+('Bob', NULL, 'Williams', 5, 30, 2, 'bob.williams@example.com', 'password2'),
+('Charlie', NULL, 'Davis', 1, 35, 3, 'charlie.davis@example.com', 'password3'),
+('Diana', NULL, 'Martinez', 7, 40, 4, 'diana.martinez@example.com', 'password4'),
+('Ethan', NULL, 'Hernandez', 2, 45, 5, 'ethan.hernandez@example.com', 'password5'),
+('Fiona', NULL, 'Young', 9, 50, 6, 'fiona.young@example.com', 'password6'),
+('George', NULL, 'Lee', 8, 55, 7, 'george.lee@example.com', 'password7'),
+('Hannah', NULL, 'Garcia', 6, 60, 8, 'hannah.garcia@example.com', 'password8'),
+('Isaac', NULL, 'Lopez', 10, 65, 9, 'isaac.lopez@example.com', 'password9'),
+('Jessica', NULL, 'King', 4, 70, 10, 'jessica.king@example.com', 'password10');
+
+
+-- Populate rider table
+INSERT INTO rider (first_name, middle_name, last_name, availability, phone_number, email, password) VALUES
+('Ryan', NULL, 'Brown', TRUE, 4, 'ryan.brown@example.com', 'password1'),
+('Sophia', NULL, 'Gonzalez', TRUE, 6, 'sophia.gonzalez@example.com', 'password2'),
+('Kevin', NULL, 'Miller', TRUE, 8, 'kevin.miller@example.com', 'password3'),
+('Zoe', NULL, 'Taylor', TRUE, 10, 'zoe.taylor@example.com', 'password4'),
+('Lucas', NULL, 'Anderson', TRUE, 2, 'lucas.anderson@example.com', 'password5'),
+('Nora', NULL, 'Thomas', TRUE, 1, 'nora.thomas@example.com', 'password6'),
+('Gabriel', NULL, 'Hernandez', TRUE, 3, 'gabriel.hernandez@example.com', 'password7'),
+('Lily', NULL, 'Young', TRUE, 5, 'lily.young@example.com', 'password8'),
+('Owen', NULL, 'Lee', TRUE, 7, 'owen.lee@example.com', 'password9'),
+('Ava', NULL, 'Wilson', TRUE, 9, 'ava.wilson@example.com', 'password10');
+
+
+-- Populate product table
+INSERT INTO product (productID, name, supplierID, price, quantity, product_description) VALUES
+(1, '3D Pen', 1, 117, 288.44, 'In congue. Etiam justo. Etiam pretium iaculis justo.'),
+(2, '3D Printer', 2, 129, 216.81, 'Sed ante. Vivamus tortor. Duis mattis egestas metus.'),
+(3, '3D Printer Bed', 3, 103, 0.7, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.'),
+(4, '3D Printer Controller', 4, 7, 184.97, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.'),
+(5, '3D Printer Extruder', 5, 141, 482.71, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.'),
+(6, '3D Printer Filament', 6, 160, 460.04, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.'),
+(7, '3D Printer Heated Bed', 7, 50, 774.75, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.'),
+(8, '3D Printer Hotend', 8, 77, 101.75, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.'),
+(9, '3D Printer LCD Screen', 9, 67, 870.12, 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.'),
+(10, '3D Printer Motherboard', 10, 18, 683.97, 'Etiam vel augue. Vestibulum');
+
+
+-- Populate orders table
+INSERT INTO orders (customerID, riderID, order_date, delivery_date) VALUES
+(1, 1, '2024-02-10', '2024-02-11'),
+(2, 2, '2024-02-09', '2024-02-12'),
+(3, 3, '2024-02-08', '2024-02-10'),
+(4, 4, '2024-02-07', '2024-02-09'),
+(5, 5, '2024-02-06', '2024-02-08'),
+(6, 6, '2024-02-05', '2024-02-07'),
+(7, 7, '2024-02-04', '2024-02-06'),
+(8, 8, '2024-02-03', '2024-02-05'),
+(9, 9, '2024-02-02', '2024-02-04'),
+(10, 10, '2024-02-01', '2024-02-03');
+
+
+-- Populate wallet table
+INSERT INTO wallet (customerID, balance, UPI_ID) VALUES
+(1, 100.00, 'alice_upi'),
+(2, 200.00, 'bob_upi'),
+(3, 300.00, 'charlie_upi'),
+(4, 400.00, 'diana_upi'),
+(5, 500.00, 'ethan_upi'),
+(6, 600.00, 'fiona_upi'),
+(7, 700.00, 'george_upi'),
+(8, 800.00, 'hannah_upi'),
+(9, 900.00, 'isaac_upi'),
+(10, 1000.00, 'jessica_upi');
+
+
+-- Populate product_review table
+INSERT INTO product_review (customerID, productID, stars, comments, review_date) VALUES
+(1, 1, 5, 'Great product!', '2024-02-10'),
+(2, 2, 4, 'Good quality.', '2024-02-09'),
+(3, 3, 3, 'Average product.', '2024-02-08'),
+(4, 4, 2, 'Not satisfied.', '2024-02-07'),
+(5, 5, 1, 'Poor quality.', '2024-02-06'),
+(6, 6, 5, 'Excellent!', '2024-02-05'),
+(7, 7, 4, 'Very good.', '2024-02-04'),
+(8, 8, 3, 'Could be better.', '2024-02-03'),
+(9, 9, 2, 'Disappointed.', '2024-02-02'),
+(10, 10, 1, 'Terrible.', '2024-02-01');
+
+
+-- Populate rider_review table
+INSERT INTO rider_review (customerID, riderID, stars, comments, review_date) VALUES
+(1, 1, 5, 'Fast delivery!', '2024-02-10'),
+(2, 2, 4, 'Polite and professional.', '2024-02-09'),
+(3, 3, 3, 'Late delivery.', '2024-02-08'),
+(4, 4, 2, 'Rude behavior.', '2024-02-07'),
+(5, 5, 1, 'Unreliable.', '2024-02-06'),
+(6, 6, 5, 'Friendly rider!', '2024-02-05'),
+(7, 7, 4, 'Good service.', '2024-02-04'),
+(8, 8, 3, 'Average experience.', '2024-02-03'),
+(9, 9, 2, 'Poor service.', '2024-02-02'),
+(10, 10, 1, 'Unprofessional.', '2024-02-01');
+
+
+-- Populate cart table
+INSERT INTO cart (customerID, productID, quantity) VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3),
+(4, 4, 4),
+(5, 5, 5),
+(6, 6, 6),
+(7, 7, 7),
+(8, 8, 8),
+(9, 9, 9),
+(10, 10, 10);
+
+
+-- Populate order_product table
+INSERT INTO order_product (orderID, productID, quantity) VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3),
+(4, 4, 4),
+(5, 5, 5),
+(6, 6, 6),
+(7, 7, 7),
+(8, 8, 8),
+(9, 9, 9),
+(10, 10, 10);
